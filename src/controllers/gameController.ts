@@ -33,6 +33,7 @@ export class GameController {
 
   static async create(req: Request, res: Response) {
     const createGameSchema = z.object({
+      cover: z.string().nonempty(),
       title: z.string().nonempty(),
       developer: z.string().nonempty(),
       year: z.number().min(1987).nonnegative(),
@@ -40,8 +41,11 @@ export class GameController {
     })
 
     try {
-      const { title, developer, year, price } = createGameSchema.parse(req.body)
+      const { cover, title, developer, year, price } = createGameSchema.parse(
+        req.body
+      )
       const newGame = gameRepository.create({
+        cover,
         title,
         developer,
         year,
@@ -58,6 +62,7 @@ export class GameController {
 
   static async edit(req: Request, res: Response) {
     const createGameSchema = z.object({
+      cover: z.string().nonempty().optional(),
       title: z.string().nonempty().optional(),
       developer: z.string().nonempty().optional(),
       year: z.number().min(1987).nonnegative().optional(),
@@ -75,10 +80,13 @@ export class GameController {
         return res.json({ Error: 'Game not found' })
       } else {
         try {
-          const { title, developer, year, price } = createGameSchema.parse(
-            req.body
-          )
-          console.log(title)
+          const { cover, title, developer, year, price } =
+            createGameSchema.parse(req.body)
+
+          if (cover !== undefined) {
+            gameRepository.update({ id }, { cover })
+          }
+
           if (title !== undefined) {
             gameRepository.update({ id }, { title })
           }

@@ -9,6 +9,12 @@ export class Game {
     nullable: false,
     type: 'text',
   })
+  cover: string
+
+  @Column({
+    nullable: false,
+    type: 'text',
+  })
   title: string
 
   @Column({
@@ -19,7 +25,7 @@ export class Game {
 
   @Column({
     nullable: false,
-    type: 'float',
+    type: 'int',
   })
   year: number
 
