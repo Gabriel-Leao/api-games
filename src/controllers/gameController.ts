@@ -3,6 +3,10 @@ import { z } from 'zod'
 import { gameRepository } from '../repository/gameRepository'
 
 export class GameController {
+  static get(req: Request, res: Response) {
+    res.redirect('/games')
+  }
+
   static async getAll(req: Request, res: Response) {
     const games = await gameRepository.find()
     res.statusCode = 200
