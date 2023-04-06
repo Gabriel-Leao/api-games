@@ -1,4 +1,4 @@
 import { dataSource } from '../data-source'
-import { Game } from '../model/Game'
+import { Game } from '../models/Game'
 
 export const gameRepository = dataSource.getRepository(Game)

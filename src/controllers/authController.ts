@@ -1,8 +1,8 @@
 import { z } from 'zod'
-import { userRepository } from '../repository/userRepository'
+import { userRepository } from '../repositories/userRepository'
 import { Request, Response } from 'express'
 import bcrypt from 'bcryptjs'
-import { User } from '../model/User'
+import Jwt from 'jsonwebtoken'
 
 export class AuthController {
   static async createUser(req: Request, res: Response) {
@@ -48,8 +48,24 @@ export class AuthController {
       } else {
         const correctPassword = bcrypt.compareSync(password, user.password)
         if (correctPassword) {
-          res.statusCode = 200
-          res.json({ Success: `Hello ${user.name}` })
+          const jwtSecret = process.env.TK_SEC as string
+          Jwt.sign(
+            {
+              name: user.name,
+              email: user.email,
+            },
+            jwtSecret,
+            { expiresIn: '48h' },
+            (err, token) => {
+              if (err) {
+                res.statusCode = 500
+                res.json({ Error: 'Internal server error' })
+              } else {
+                res.statusCode = 200
+                res.json({ Token: token })
+              }
+            }
+          )
         } else {
           res.statusCode = 401
           res.json({ Error: 'Incorrect credentials' })

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { z } from 'zod'
-import { gameRepository } from '../repository/gameRepository'
+import { gameRepository } from '../repositories/gameRepository'
 
 export class GameController {
   static get(req: Request, res: Response) {

@@ -15,6 +15,6 @@ export const dataSource = new DataSource({
   password,
   database,
   port,
-  entities: [__dirname + '/**/model/*.{ts,js}'],
+  entities: [__dirname + '/**/models/*.{ts,js}'],
   migrations: [__dirname + '/**/migrations/*.{ts,js}'],
 })
