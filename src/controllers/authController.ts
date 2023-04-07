@@ -1,8 +1,8 @@
-import { z } from 'zod'
-import { userRepository } from '../repositories/userRepository'
 import { Request, Response } from 'express'
+import { z } from 'zod'
 import bcrypt from 'bcryptjs'
 import Jwt from 'jsonwebtoken'
+import { User } from '../models/User'
 
 export class AuthController {
   static async createUser(req: Request, res: Response) {
@@ -18,8 +18,7 @@ export class AuthController {
       const salt = bcrypt.genSaltSync(10)
       const hash = bcrypt.hashSync(password, salt)
 
-      const newUser = userRepository.create({ name, email, password: hash })
-      await userRepository.save(newUser)
+      await User.create({ name, email, password: hash })
       res.statusCode = 201
       return res.json({ success: 'User has been added successfully' })
     } catch (error) {
@@ -40,7 +39,7 @@ export class AuthController {
     try {
       const { email, password } = userSchema.parse(req.body)
 
-      const user: any = await userRepository.findOneBy({ email })
+      const user: any = await User.findOne({ where: { email } })
 
       if (user == null) {
         res.statusCode = 404

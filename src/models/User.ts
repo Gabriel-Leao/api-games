@@ -1,16 +1,19 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { STRING } from 'sequelize'
+import { database } from '../config/db.config'
 
-@Entity('users')
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number
+export const User = database.define('users', {
+  name: {
+    type: STRING,
+    allowNull: false,
+  },
 
-  @Column({ nullable: false, type: 'text' })
-  name: string
+  email: {
+    type: STRING,
+    allowNull: false,
+  },
 
-  @Column({ nullable: false, type: 'text' })
-  email: string
-
-  @Column({ nullable: false, type: 'text' })
-  password: string
-}
+  password: {
+    type: STRING,
+    allowNull: false,
+  },
+})

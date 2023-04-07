@@ -17,5 +17,5 @@ routes.put('/game/:id', auth, GameController.edit)
 
 routes.delete('/game/:id', auth, GameController.delete)
 
-routes.post('/user/auth', auth, AuthController.auth)
+routes.post('/user/auth', AuthController.auth)
 routes.post('/user/create', auth, AuthController.createUser)

@@ -1,37 +1,29 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { STRING, INTEGER, FLOAT } from 'sequelize'
+import { database } from '../config/db.config'
 
-@Entity('games')
-export class Game {
-  @PrimaryGeneratedColumn()
-  id: number
+export const Games = database.define('games', {
+  cover: {
+    type: STRING,
+    allowNull: false,
+  },
 
-  @Column({
-    nullable: false,
-    type: 'text',
-  })
-  cover: string
+  title: {
+    type: STRING,
+    allowNull: false,
+  },
 
-  @Column({
-    nullable: false,
-    type: 'text',
-  })
-  title: string
+  developer: {
+    type: STRING,
+    allowNull: false,
+  },
 
-  @Column({
-    nullable: false,
-    type: 'text',
-  })
-  developer: string
+  year: {
+    type: INTEGER,
+    allowNull: false,
+  },
 
-  @Column({
-    nullable: false,
-    type: 'int',
-  })
-  year: number
-
-  @Column({
-    nullable: false,
-    type: 'float',
-  })
-  price: number
-}
+  price: {
+    type: FLOAT,
+    allowNull: false,
+  },
+})

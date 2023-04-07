@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { z } from 'zod'
-import { gameRepository } from '../repositories/gameRepository'
+import { Games } from '../models/Game'
 
 export class GameController {
   static get(req: Request, res: Response) {
@@ -8,7 +8,7 @@ export class GameController {
   }
 
   static async getAll(req: Request, res: Response) {
-    const games = await gameRepository.find()
+    const games = await Games.findAll()
     res.statusCode = 200
     return res.json(games)
   }
@@ -20,7 +20,7 @@ export class GameController {
       return res.json({ Error: 'Bad Request' })
     } else {
       try {
-        const game = await gameRepository.findOneBy({ id })
+        const game = await Games.findByPk(id)
         if (game == null) {
           res.statusCode = 404
           return res.json({ Error: 'Game not found' })
@@ -48,14 +48,13 @@ export class GameController {
       const { cover, title, developer, year, price } = createGameSchema.parse(
         req.body
       )
-      const newGame = gameRepository.create({
+      await Games.create({
         cover,
         title,
         developer,
         year,
         price,
       })
-      await gameRepository.save(newGame)
       res.statusCode = 201
       return res.json({ success: 'Game has been added successfully' })
     } catch (error) {
@@ -77,7 +76,7 @@ export class GameController {
       res.statusCode = 400
       return res.json({ Error: 'Bad request' })
     } else {
-      const game = await gameRepository.findOneBy({ id })
+      const game = await Games.findByPk(id)
 
       if (game === null) {
         res.statusCode = 404
@@ -88,20 +87,20 @@ export class GameController {
             createGameSchema.parse(req.body)
 
           if (cover !== undefined) {
-            gameRepository.update({ id }, { cover })
+            Games.update({ cover }, { where: { id } })
           }
 
           if (title !== undefined) {
-            gameRepository.update({ id }, { title })
+            Games.update({ title }, { where: { id } })
           }
           if (developer !== undefined) {
-            gameRepository.update({ id }, { developer })
+            Games.update({ developer }, { where: { id } })
           }
           if (year !== undefined) {
-            gameRepository.update({ id }, { year })
+            Games.update({ year }, { where: { id } })
           }
           if (price !== undefined) {
-            gameRepository.update({ id }, { price })
+            Games.update({ price }, { where: { id } })
           }
           res.statusCode = 200
           return res.json({ success: 'Game has been edited successfully' })
@@ -119,12 +118,12 @@ export class GameController {
       res.statusCode = 400
       return res.json({ Error: 'Bad Request' })
     } else {
-      const game = await gameRepository.findOneBy({ id })
+      const game = await Games.findByPk(id)
       if (game === null) {
         res.statusCode = 404
         return res.json({ Error: 'Game not found' })
       } else {
-        gameRepository.delete({ id })
+        Games.destroy({ where: { id } })
         res.statusCode = 200
         return res.json({ success: 'Game has been removed successfully' })
       }

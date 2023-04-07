@@ -1,11 +1,11 @@
 import bodyParser from 'body-parser'
 import express from 'express'
-import { dataSource } from './data-source'
 import { routes } from './routes/index.routes'
 import cors from 'cors'
+import { database } from './config/db.config'
 
-dataSource
-  .initialize()
+database
+  .authenticate()
   .then(() => {
     const port = process.env.PORT || 3333
     const app = express()
