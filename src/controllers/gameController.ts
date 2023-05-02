@@ -56,7 +56,7 @@ export class GameController {
         price,
       })
       res.statusCode = 201
-      return res.json({ success: 'Game has been added successfully' })
+      return res.json({ Success: 'Game has been added successfully' })
     } catch (error) {
       res.statusCode = 400
       return res.json({ Error: 'Bad request' })
@@ -103,7 +103,7 @@ export class GameController {
             Games.update({ price }, { where: { id } })
           }
           res.statusCode = 200
-          return res.json({ success: 'Game has been edited successfully' })
+          return res.json({ Success: 'Game has been edited successfully' })
         } catch (error) {
           res.statusCode = 400
           return res.json({ Error: 'Bad Request' })
@@ -125,7 +125,7 @@ export class GameController {
       } else {
         Games.destroy({ where: { id } })
         res.statusCode = 200
-        return res.json({ success: 'Game has been removed successfully' })
+        return res.json({ Success: 'Game has been removed successfully' })
       }
     }
   }
