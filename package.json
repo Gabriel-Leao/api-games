@@ -8,9 +8,8 @@
   "main": "./dist/server.js",
   "scripts": {
     "dev": "tsx watch ./src/server.ts",
-    "build": "npm i && tsup ./src",
-    "start": "node ./dist/server.js",
-    "vercel-build": "echo hello"
+    "build": "tsup ./src",
+    "start": "node ./dist/server.js"
   },
   "keywords": [],
   "author": "Magic-Lion",
