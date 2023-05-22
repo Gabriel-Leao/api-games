@@ -8,7 +8,7 @@
   "main": "./dist/server.js",
   "scripts": {
     "dev": "tsx watch ./src/server.ts",
-    "build": "tsup ./src",
+    "build": "npm i && tsup ./src",
     "start": "node ./dist/server.js"
   },
   "keywords": [],
