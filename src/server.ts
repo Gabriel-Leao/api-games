@@ -3,12 +3,13 @@ import express from 'express'
 import { routes } from './routes/index.routes'
 import cors from 'cors'
 import { database } from './config/db.config'
+export let app: any
 
 database
   .authenticate()
   .then(() => {
     const port = process.env.PORT || 3333
-    const app = express()
+    app = express()
     app.use(cors())
     app.use(bodyParser.urlencoded({ extended: false }))
     app.use(bodyParser.json())
