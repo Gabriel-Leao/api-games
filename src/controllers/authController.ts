@@ -71,7 +71,7 @@ export class AuthController {
         }
       }
     } catch (error) {
-      res.statusCode = 404
+      res.statusCode = 400
       return res.json({ Error: 'Bad Request' })
     }
   }
