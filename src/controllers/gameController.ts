@@ -9,8 +9,28 @@ export class GameController {
 
   static async getAll(req: Request, res: Response) {
     const games = await Games.findAll()
+    const newGames = games.map((game: any) => {
+      const _links = [
+        {
+          href: `${req.protocol}://${req.get('host')}/game/${game.id}`,
+          method: 'GET',
+          rel: 'get_game',
+        },
+        {
+          href: `${req.protocol}://${req.get('host')}/game/${game.id}`,
+          method: 'PUT',
+          rel: 'edit_game',
+        },
+        {
+          href: `${req.protocol}://${req.get('host')}/game/${game.id}`,
+          method: 'DELETE',
+          rel: 'delete_game',
+        },
+      ]
+      return { game, _links }
+    })
     res.statusCode = 200
-    return res.json(games)
+    return res.json(newGames)
   }
 
   static async getOne(req: Request, res: Response) {
@@ -25,8 +45,25 @@ export class GameController {
           res.statusCode = 404
           return res.json({ Error: 'Game not found' })
         } else {
+          const _links = [
+            {
+              href: `${req.protocol}://${req.get('host')}/games/`,
+              method: 'GET',
+              rel: 'get_all_games',
+            },
+            {
+              href: `${req.protocol}://${req.get('host')}/game/${id}`,
+              method: 'PUT',
+              rel: 'edit_game',
+            },
+            {
+              href: `${req.protocol}://${req.get('host')}/game/${id}`,
+              method: 'DELETE',
+              rel: 'delete_game',
+            },
+          ]
           res.statusCode = 200
-          return res.json(game)
+          return res.json({ game, _links })
         }
       } catch (error) {
         res.statusCode = 404
